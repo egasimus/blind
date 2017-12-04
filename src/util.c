@@ -37,7 +37,7 @@ tollu(const char *s, unsigned long long int min, unsigned long long int max, uns
 		return -1;
 	}
 	if (!isdigit(s[*s == 'x' || *s == 'X' || *s == '#']) ||
-	    (*s == '0' && !isdigit(s[1 + (*s == 'x' || *s == 'o' || *s == 'b')]))) {
+	    (*s == '0' && s[1] && !isdigit(s[1 + (*s == 'x' || *s == 'o' || *s == 'b')]))) {
 		errno = EINVAL;
 		return -1;
 	}
