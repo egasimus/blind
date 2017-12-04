@@ -49,6 +49,8 @@ blind-{convert,{from,to}-video} add options to cache result of:
 -	last pixel
 -	same pixel in previous frame
 
+REGRESSIONS:
+	blind-gauss-blur		transparency pixels become dark green
 
 HELP REQUIRED:
 	blind-z-map			create a Z-map video from two or more videos
