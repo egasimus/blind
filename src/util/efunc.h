@@ -69,7 +69,7 @@ ewrite(int fd, void *buf, size_t n, const char *fname)
 {
 	ssize_t ret = write(fd, buf, n);
 	if (ret < 0) {
-		if (errno = ECONNRESET)
+		if (errno == ECONNRESET)
 			raise(SIGPIPE);
 		eprintf("write %s:", fname);
 	}
