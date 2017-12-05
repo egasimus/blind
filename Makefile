@@ -155,7 +155,7 @@ EXAMPLEFILES =\
 	reverse/Makefile\
 	split/Makefile
 
-COMMON_SRC = $(COMMON_SRC:.o=.c)
+COMMON_SRC = $(COMMON_OBJ:.o=.c)
 SRC = $(BIN:=.c) $(COMMON_SRC)
 SCRIPTS = $(SH_SCRIPTS) $(KSH_SCRIPTS) 
 MAN1 = $(BIN:=.1) $(SCRIPTS:=.1)
