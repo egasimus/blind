@@ -120,23 +120,23 @@ COMMON_OBJ =\
 	stream.o
 
 HDR =\
-	arg.h\
-	common.h\
-	define-functions.h\
-	stream.h\
-	util.h\
-	util/to.h\
-	util/jobs.h\
-	util/emalloc.h\
-	util/eopen.h\
-	util/endian.h\
-	util/colour.h\
-	util/io.h\
-	util/efflush.h\
-	util/efunc.h\
-	util/eprintf.h\
-	util/fshut.h\
-	video-math.h
+	src/arg.h\
+	src/common.h\
+	src/define-functions.h\
+	src/stream.h\
+	src/util.h\
+	src/util/to.h\
+	src/util/jobs.h\
+	src/util/emalloc.h\
+	src/util/eopen.h\
+	src/util/endian.h\
+	src/util/colour.h\
+	src/util/io.h\
+	src/util/efflush.h\
+	src/util/efunc.h\
+	src/util/eprintf.h\
+	src/util/fshut.h\
+	src/video-math.h
 
 MISCFILES =\
 	Makefile\
@@ -168,10 +168,10 @@ mcb: blind-mcb
 %: %.o $(COMMON_OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-%.o: src/%.c src/*.h src/*/*.h platform.h
+%.o: src/%.c $(HDR) platform.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
-%.mcb.o: src/%.c src/*.h src/*/*.h platform.h
+%.bo: src/%.c $(HDR) platform.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Dmain="$$(printf 'main_%s\n' $* | tr -- - _)" -c -o $@ $<
 
 blind-mcb.c: Makefile
@@ -188,7 +188,7 @@ blind-mcb.c: Makefile
 	printf 'return 1;\n' >> blind-mcb.c
 	printf '}\n' >> blind-mcb.c
 
-blind-mcb: blind-mcb.o $(BIN:=.mcb.o) $(COMMON_OBJ)
+blind-mcb: blind-mcb.o $(BIN:=.bo) $(COMMON_OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 generate-macros: src/generate-macros.c
@@ -247,8 +247,10 @@ dist:
 	mkdir -p "blind-$(VERSION)/src/util" "blind-$(VERSION)/man"
 	cp $(MISCFILES) $(SCRIPTS) "blind-$(VERSION)"
 	cd man && cp $(MAN1) $(MAN7) "../blind-$(VERSION)/man"
-	set -e && cd src && for s in $(SRC) $(HDR); do \
+	set -e && cd src && for s in $(SRC); do \
 		cp "$$s" "../blind-$(VERSION)/src/$$s"; done
+	set -e && for s in $(HDR); do \
+		cp "$$s" "../blind-$(VERSION)/$$s"; done
 	set -e && for e in $(EXAMPLEDIRS); do \
 		mkdir -p "blind-$(VERSION)/examples/$$e"; done
 	set -e && cd examples && for e in $(EXAMPLEFILES); \
@@ -258,9 +260,9 @@ dist:
 	rm -rf "blind-$(VERSION)"
 
 clean:
-	-rm -f $(BIN) *.o blind-$(VERSION).tar.gz platform.h generate-macros
-	-rm -f blind-mcb.c blind-mcb.o blind-mcb
-	-rm -rf "blind-$(VERSION)"
+	-rm -f -- $(BIN) *.o blind-$(VERSION).tar.gz platform.h generate-macros
+	-rm -f -- blind-mcb.c blind-mcb *.bo
+	-rm -rf -- "blind-$(VERSION)"
 
 
 .PHONY: all mcb install install-mcb uninstall dist clean

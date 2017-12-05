@@ -6,6 +6,7 @@
 *.swo
 *.swp
 *.o
+*.bo
 *.out
 /platform.h
 /generate-macros
