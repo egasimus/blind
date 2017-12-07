@@ -17,7 +17,7 @@
 # pragma GCC diagnostic ignored "-Wfloat-conversion"
 #endif
 
-#include "../platform.h"
+#include "../build/platform.h"
 #include "stream.h"
 #include "util.h"
 #include "video-math.h"
