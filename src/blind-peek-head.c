@@ -115,7 +115,7 @@ main(int argc, char *argv[])
 		usleep(50000);
 	beginning:
 		last_len = len;
-		len = peek(buf, n);
+		len = peek(buf, sizeof(buf));
 		p = memchr(buf, '\n', len);
 		if (p && len >= (size_t)(++p - buf) + ELEMENTSOF(magic))
 			goto ready;
