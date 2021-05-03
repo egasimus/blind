@@ -94,6 +94,7 @@ BIN =\
 	blind-to-portable\
 	blind-to-text\
 	blind-to-video\
+	blind-transform\
 	blind-transition\
 	blind-translate\
 	blind-transpose\
